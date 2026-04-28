@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+<body>
+<h2>Quản lý sản phẩm</h2>
+<form th:action="@{/products}" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm...">
+    <button type="submit">Tìm</button>
+</form>
+<br>
+<a th:href="@{/products/add}">Thêm mới</a>
+<table border="1" style="width: 100%; margin-top: 10px;">
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Tên sản phẩm</th>
+        <th>Danh mục</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p, state : ${products}">
+        <td th:text="${state.count}"></td>
+        <td th:text="${p.productName}"></td>
+        <td th:text="${p.category}"></td>
+        <td th:text="${p.price}"></td>
+        <td th:text="${p.stock}"></td>
+        <td class="action-links">
+            <a th:href="@{/products/edit/{id}(id=${p.id})}" class="link-edit">Sửa</a>
+            <a th:href="@{/products/delete/{id}(id=${p.id})}" class="link-delete"
+               onclick="return confirm('Xóa sản phẩm này?')">Xóa</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p th:if="${#lists.isEmpty(products)}">Không có dữ liệu.</p>
+</body>
+</html>
